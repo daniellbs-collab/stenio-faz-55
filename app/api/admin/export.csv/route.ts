@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     ["Nome", "Comparece", "Acompanhantes", "Recado", "Data"],
     ...rsvps.map((rsvp) => [
       rsvp.name,
-      rsvp.attending ? "Sim" : "Nao",
+      rsvp.attending ? "Sim" : "Não",
       rsvp.guests,
       rsvp.message ?? "",
       formatDate(rsvp.createdAt),

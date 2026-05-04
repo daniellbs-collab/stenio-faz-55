@@ -112,7 +112,7 @@ export function AdminDashboard({
 
     if (!response.ok) {
       setMessages(previous);
-      toast.error("Nao consegui remover o recado.");
+      toast.error("Não consegui remover o recado.");
       return;
     }
 
@@ -127,7 +127,7 @@ export function AdminDashboard({
     },
     {
       icon: UserX,
-      label: "Nao confirmados",
+      label: "Não confirmados",
       value: metrics.declined,
     },
     {
@@ -151,7 +151,7 @@ export function AdminDashboard({
               Painel admin
             </p>
             <h1 className="mt-2 font-display text-4xl font-semibold">
-              Stenio faz 55
+              Stênio faz 55
             </h1>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -229,7 +229,7 @@ export function AdminDashboard({
                         <tr className="border-t border-primary/10" key={rsvp.id}>
                           <td className="px-4 py-3 font-medium">{rsvp.name}</td>
                           <td className="px-4 py-3">
-                            {rsvp.attending ? "Sim" : "Nao"}
+                            {rsvp.attending ? "Sim" : "Não"}
                           </td>
                           <td className="px-4 py-3">{rsvp.guests}</td>
                           <td className="max-w-sm px-4 py-3 text-foreground/70">

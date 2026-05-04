@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
       setError(
         response.status === 401
           ? "Senha incorreta."
-          : "Nao consegui validar a senha agora.",
+          : "Não consegui validar a senha agora.",
       );
       return;
     }
@@ -44,10 +44,10 @@ export default function AdminLoginPage() {
           <LockKeyhole aria-hidden="true" className="h-5 w-5" />
         </div>
         <h1 className="mt-6 font-display text-3xl font-semibold">
-          Admin Stenio 55
+          Admin Stênio 55
         </h1>
         <p className="mt-2 text-sm leading-6 text-foreground/70">
-          Acesso restrito para acompanhar confirmacoes e recados.
+          Acesso restrito para acompanhar confirmações e recados.
         </p>
 
         <label className="mt-6 block text-sm font-medium" htmlFor="password">

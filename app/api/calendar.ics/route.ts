@@ -29,7 +29,7 @@ export function GET() {
   const calendar = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Stenio Faz 55//Convite//PT-BR",
+    "PRODID:-//Stênio Faz 55//Convite//PT-BR",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
