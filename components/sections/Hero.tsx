@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 const mapsUrl =
   "https://www.google.com/maps/search/?api=1&query=633M%2BW7+Sudoeste%2FOctogonal+Bras%C3%ADlia+-+DF";
 
-const audioSrc = "/media/audio/sekai-burn-me-down-ncs-release.mp3";
+const audioSrc = "/media/audio/funny-happy-birthday.mp3";
 
 const textContainer: Variants = {
   hidden: {},
@@ -155,22 +155,16 @@ function SoundtrackPlayer({ reduceMotion }: { reduceMotion: boolean }) {
           <span className="block">Trilha do brinde</span>
           <span className="block text-xs font-medium text-foreground/65">
             {isPlaying
-              ? "Sekai - Burn Me Down"
+              ? "parabéns em modo festa"
               : needsGesture
                 ? "toque para ativar"
                 : "tentando tocar"}
           </span>
         </span>
       </button>
-      <a
-        className="text-xs font-medium text-primary/75 underline-offset-4 transition hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
-        href="https://ncs.io/BurnMeDown"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Song: Sekai - Burn Me Down [NCS Release] · Music provided by
-        NoCopyrightSounds
-      </a>
+      <p className="text-xs font-medium text-primary/75">
+        Música de aniversário royalty-free
+      </p>
     </div>
   );
 }
