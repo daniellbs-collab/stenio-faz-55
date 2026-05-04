@@ -134,7 +134,7 @@ function SoundtrackPlayer({ reduceMotion }: { reduceMotion: boolean }) {
   }, [isPlaying, reduceMotion]);
 
   return (
-    <div className="mt-6 flex w-full max-w-md flex-col items-center gap-2">
+    <div className="mt-6 flex w-full max-w-md flex-col items-center">
       <audio ref={audioRef} loop preload="metadata" src={audioSrc}>
         <track kind="captions" />
       </audio>
@@ -162,9 +162,6 @@ function SoundtrackPlayer({ reduceMotion }: { reduceMotion: boolean }) {
           </span>
         </span>
       </button>
-      <p className="text-xs font-medium text-primary/75">
-        Música de aniversário royalty-free
-      </p>
     </div>
   );
 }
@@ -198,7 +195,7 @@ export function Hero() {
   }
 
   return (
-    <header className="relative flex min-h-screen min-h-[100svh] w-full items-center justify-center bg-accent px-5 py-8 text-foreground">
+    <header className="relative flex min-h-screen min-h-[100svh] w-full items-center justify-center bg-accent px-5 pb-24 pt-8 text-foreground sm:pb-28">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
         <motion.p
           className="mb-5 text-xs font-medium uppercase tracking-[0.22em] text-primary sm:text-sm"
