@@ -1,0 +1,45 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# production
+build/
+dist/
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local caches
+*.tsbuildinfo
+.eslintcache
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# raw/source media kept outside the deployed app bundle
+/video.mp4
+/20241212_083827.jpg
+/20241212_094421.jpg
+/20241212_094421.png
+/Gemini_Generated_Image_a4ltpsa4ltpsa4lt.png
+/Perfil whatsapp.png
+/boteco-caju-1.jpg
+/boteco-caju-2.jpg
+/caju-limao-3.jpg
+/caju-limao-4.jpg
+/caju-limao-5.JPG
+/public/media/avatar-original.mp4

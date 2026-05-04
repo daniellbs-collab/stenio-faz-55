@@ -1,0 +1,21 @@
+{
+  "name": "St\u00eanio faz 55",
+  "short_name": "St\u00eanio 55",
+  "description": "Convite interativo do anivers\u00e1rio de 55 anos do St\u00eanio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#F5A98A",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
