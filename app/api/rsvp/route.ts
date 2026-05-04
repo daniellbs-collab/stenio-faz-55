@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getIpHash, isRateLimited } from "@/lib/rate-limit";
+import { sendRsvpReportEmail } from "@/lib/rsvp-report-email";
 import { rsvpSchema } from "@/lib/validators";
 
 export async function POST(request: NextRequest) {
@@ -23,18 +24,51 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  await prisma.rsvp.create({
+  const savedRsvp = await prisma.rsvp.create({
     data: {
       ...parsed.data,
       ipHash,
     },
+    select: {
+      attending: true,
+      createdAt: true,
+      guests: true,
+      message: true,
+      name: true,
+    },
   });
 
-  const confirmed = await prisma.rsvp.findMany({
-    select: { guests: true },
-    where: { attending: true },
+  const allRsvps = await prisma.rsvp.findMany({
+    orderBy: { createdAt: "desc" },
+    select: {
+      attending: true,
+      createdAt: true,
+      guests: true,
+      message: true,
+      name: true,
+    },
   });
-  const totalConfirmed = confirmed.reduce((total, rsvp) => total + 1 + rsvp.guests, 0);
+  const confirmedRsvps = allRsvps.filter((rsvp) => rsvp.attending);
+  const declinedRsvps = allRsvps.filter((rsvp) => !rsvp.attending);
+  const totalGuests = confirmedRsvps.reduce((total, rsvp) => total + rsvp.guests, 0);
+  const totalConfirmed = confirmedRsvps.reduce(
+    (total, rsvp) => total + 1 + rsvp.guests,
+    0,
+  );
+
+  sendRsvpReportEmail({
+    latestRsvps: allRsvps.slice(0, 10),
+    metrics: {
+      confirmedPeople: totalConfirmed,
+      confirmedRsvps: confirmedRsvps.length,
+      declinedRsvps: declinedRsvps.length,
+      totalGuests,
+      totalRsvps: allRsvps.length,
+    },
+    rsvp: savedRsvp,
+  }).catch((error) => {
+    console.error("[rsvp-report-email] Failed to send RSVP report.", error);
+  });
 
   return NextResponse.json({ ok: true, totalConfirmed });
 }
