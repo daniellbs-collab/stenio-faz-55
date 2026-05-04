@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { motion, type Variants, useReducedMotion } from "framer-motion";
-import { ChevronDown, MapPin } from "lucide-react";
+import { ChevronDown, MapPin, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const mapsUrl =
   "https://www.google.com/maps/search/?api=1&query=633M%2BW7+Sudoeste%2FOctogonal+Bras%C3%ADlia+-+DF";
+
+const audioSrc = "/media/audio/sekai-burn-me-down-ncs-release.mp3";
 
 const textContainer: Variants = {
   hidden: {},
@@ -27,6 +29,151 @@ const textItem: Variants = {
     transition: { duration: 0.45, ease: "easeOut" },
   },
 };
+
+function SoundtrackPlayer({ reduceMotion }: { reduceMotion: boolean }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [needsGesture, setNeedsGesture] = useState(false);
+
+  async function playAudio() {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return false;
+    }
+
+    audio.volume = 0.22;
+
+    try {
+      await audio.play();
+      setIsPlaying(true);
+      setNeedsGesture(false);
+      return true;
+    } catch {
+      setIsPlaying(false);
+      setNeedsGesture(true);
+      return false;
+    }
+  }
+
+  function pauseAudio() {
+    audioRef.current?.pause();
+    setIsPlaying(false);
+  }
+
+  async function toggleAudio() {
+    if (isPlaying) {
+      pauseAudio();
+      return;
+    }
+
+    await playAudio();
+  }
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    audio.volume = 0.22;
+
+    function handleEnded() {
+      setIsPlaying(false);
+    }
+
+    function handlePause() {
+      setIsPlaying(false);
+    }
+
+    function handlePlay() {
+      setIsPlaying(true);
+    }
+
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("play", handlePlay);
+
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("play", handlePlay);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setNeedsGesture(true);
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      void playAudio();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (isPlaying || reduceMotion) {
+      return;
+    }
+
+    async function handleFirstGesture() {
+      await playAudio();
+    }
+
+    window.addEventListener("pointerdown", handleFirstGesture, { once: true });
+    window.addEventListener("keydown", handleFirstGesture, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", handleFirstGesture);
+      window.removeEventListener("keydown", handleFirstGesture);
+    };
+  }, [isPlaying, reduceMotion]);
+
+  return (
+    <div className="mt-6 flex w-full max-w-md flex-col items-center gap-2">
+      <audio ref={audioRef} loop preload="metadata" src={audioSrc}>
+        <track kind="captions" />
+      </audio>
+      <button
+        aria-pressed={isPlaying}
+        className="inline-flex min-h-12 items-center gap-3 rounded-full border border-primary/25 bg-background/70 px-5 py-3 text-sm font-semibold text-primary shadow-sm backdrop-blur transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
+        onClick={toggleAudio}
+        type="button"
+      >
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-background">
+          {isPlaying ? (
+            <Pause aria-hidden="true" className="h-4 w-4" />
+          ) : (
+            <Play aria-hidden="true" className="h-4 w-4 fill-current" />
+          )}
+        </span>
+        <span className="text-left">
+          <span className="block">Trilha do brinde</span>
+          <span className="block text-xs font-medium text-foreground/65">
+            {isPlaying
+              ? "Sekai - Burn Me Down"
+              : needsGesture
+                ? "toque para ativar"
+                : "tentando tocar"}
+          </span>
+        </span>
+      </button>
+      <a
+        className="text-xs font-medium text-primary/75 underline-offset-4 transition hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
+        href="https://ncs.io/BurnMeDown"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Song: Sekai - Burn Me Down [NCS Release] · Music provided by
+        NoCopyrightSounds
+      </a>
+    </div>
+  );
+}
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -122,6 +269,9 @@ export function Hero() {
                 Como chegar
               </a>
             </Button>
+          </motion.div>
+          <motion.div variants={textItem}>
+            <SoundtrackPlayer reduceMotion={Boolean(reduceMotion)} />
           </motion.div>
         </motion.div>
       </div>
