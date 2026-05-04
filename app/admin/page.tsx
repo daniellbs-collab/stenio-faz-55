@@ -1,6 +1,8 @@
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const [rsvps, messages] = await Promise.all([
     prisma.rsvp.findMany({
