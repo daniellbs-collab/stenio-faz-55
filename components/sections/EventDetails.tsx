@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Calendar, Clock, Download, MapPin, Users } from "lucide-react";
+import { Calendar, Clock, Download, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const eventDate = "2026-05-07T19:00:00-03:00";
@@ -29,7 +29,6 @@ const detailItems = [
   { icon: Calendar, text: "Quinta, 07 de maio de 2026" },
   { icon: Clock, text: "A partir das 19h" },
   { icon: MapPin, text: "Boteco Caju Limão · Sudoeste" },
-  { icon: Users, text: "Salão Sudoeste — área reservada" },
 ];
 
 function getTimeLeft(targetDate: string): TimeLeft {
